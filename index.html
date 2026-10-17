@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#101322">
+    <meta name="description" content="Python bilimlaringizni qiziqarli quizlar bilan sinang.">
+    <title>Python Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Python Quiz bosh sahifa">
+          <span class="brand-icon">Py</span>
+          <span>quiz<span class="brand-dot">.</span></span>
+        </a>
+        <div class="topbar-tag"><span class="live-dot"></span> BILIMINGNI SINOVDAN O‘TKAZ</div>
+      </header>
+
+      <section id="home-screen" class="screen">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">SALOM, <span id="player-name">DASTURCHI</span> 👋</p>
+            <h1>Bugun nimalarni<br><span>o‘rganamiz?</span></h1>
+            <p class="hero-description">Qisqa quizlar. Tezkor natija. Har kuni biroz kuchliroq Python.</p>
+            <div class="hero-pills">
+              <span>⚡ Darhol javob</span>
+              <span>🧠 12 ta mavzu</span>
+            </div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="orb orb-one"></div>
+            <div class="orb orb-two"></div>
+            <div class="python-mark"><span>Py</span><i>✦</i></div>
+            <span class="float-code code-one">{ }</span>
+            <span class="float-code code-two">01</span>
+          </div>
+        </section>
+
+        <section class="stats-strip" aria-label="O‘rganish natijalari">
+          <div class="stat-card"><span class="stat-icon">⚡</span><strong id="stat-xp">0</strong><small>JAMI XP</small></div>
+          <div class="stat-card"><span class="stat-icon">🔥</span><strong id="stat-streak">0</strong><small>KUNLIK SERIYA</small></div>
+          <div class="stat-card"><span class="stat-icon">🏁</span><strong id="stat-quizzes">0</strong><small>TESTLAR</small></div>
+        </section>
+
+        <section class="daily-card">
+          <div class="daily-copy">
+            <p class="eyebrow">BUGUNGI MAXSUS VAZIFA</p>
+            <h2 id="daily-title">Kunlik sinov</h2>
+            <p>Har kuni yangi 5 ta savol. Odat hosil qil, seriyani uzma!</p>
+            <button id="daily-button" class="daily-button" type="button">Boshlash <span>→</span></button>
+          </div>
+          <div class="daily-art" aria-hidden="true">☀️<span>5</span></div>
+        </section>
+
+        <section class="section-heading tools-heading">
+          <div>
+            <p class="eyebrow">YANGI USULDA O‘RGAN</p>
+            <h2>Mini mashg‘ulotlar</h2>
+          </div>
+        </section>
+        <section class="tool-grid">
+          <button id="flashcards-button" class="tool-card" type="button">
+            <span class="tool-icon">🃏</span><strong>Flash kartalar</strong><small>Atamalarni yodda saqla</small><span class="tool-arrow">→</span>
+          </button>
+          <button id="mistakes-button" class="tool-card" type="button">
+            <span class="tool-icon">🎯</span><strong>Xatolarim</strong><small><span id="mistake-count">0</span> ta savolni qaytar</small><span class="tool-arrow">→</span>
+          </button>
+        </section>
+
+        <section class="section-heading">
+          <div>
+            <p class="eyebrow">O‘ZINGGA MOSINI TANLA</p>
+            <h2>Test mavzulari</h2>
+          </div>
+          <span class="topic-count">12 MAVZU</span>
+        </section>
+
+        <section class="difficulty-section" aria-label="Test darajasini tanlash">
+          <div class="difficulty-heading"><strong>Darajani tanlang</strong><span>O‘zingizga mos qiyinlik</span></div>
+          <div id="difficulty-options" class="difficulty-options">
+            <button class="difficulty-option selected" data-difficulty="all" type="button">🌈 Barchasi</button>
+            <button class="difficulty-option" data-difficulty="easy" type="button">🌱 Oson</button>
+            <button class="difficulty-option" data-difficulty="medium" type="button">⚡ O‘rta</button>
+            <button class="difficulty-option" data-difficulty="hard" type="button">🔥 Qiyin</button>
+          </div>
+        </section>
+
+        <section id="category-grid" class="category-grid" aria-label="Test mavzulari"></section>
+
+        <button id="mixed-button" class="mixed-card" type="button">
+          <span class="mixed-icon">🎲</span>
+          <span class="mixed-copy"><strong>Aralash sinov</strong><small>10 ta savol · barcha mavzulardan</small></span>
+          <span class="mixed-arrow">↗</span>
+        </button>
+        <p class="footer-note">Bepul o‘rgan · har bir javobdan nimadir o‘rganib chiq ✨</p>
+      </section>
+
+      <section id="flashcards-screen" class="screen hidden">
+        <button class="back-button home-back-button" type="button">← Bosh sahifa</button>
+        <div class="section-heading">
+          <div><p class="eyebrow">ESLAB QOLISH OSONROQ</p><h2>Flash kartalar</h2></div>
+          <span id="flashcard-counter" class="topic-count"></span>
+        </div>
+        <button id="flashcard" class="flashcard" type="button" aria-label="Kartani aylantirish uchun bosing">
+          <span id="flashcard-side" class="flashcard-side">ATAMA</span>
+          <strong id="flashcard-content"></strong>
+          <small id="flashcard-hint">Javobini ko‘rish uchun bosing ↻</small>
+        </button>
+        <div class="flashcard-controls">
+          <button id="flashcard-prev" class="secondary-button" type="button">← Oldingi</button>
+          <button id="flashcard-next" class="secondary-button" type="button">Keyingi →</button>
+        </div>
+        <p class="quiz-footnote">Kartani bosib ta’rifni ko‘ring, keyin o‘zingiz eslaganingizni tekshiring.</p>
+      </section>
+
+      <section id="mistakes-screen" class="screen hidden">
+        <button class="back-button home-back-button" type="button">← Bosh sahifa</button>
+        <div class="section-heading">
+          <div><p class="eyebrow">TAKRORLASH — O‘RGANISHNING BIR QISMI</p><h2>Xatolarim</h2></div>
+          <span id="mistakes-heading-count" class="topic-count"></span>
+        </div>
+        <div id="mistakes-list" class="mistakes-list"></div>
+        <p id="empty-mistakes" class="empty-state hidden">Hozircha xato javob yo‘q. Test ishlang — kerak bo‘lsa, savollar shu yerda saqlanadi. 🌱</p>
+        <button id="clear-mistakes" class="text-button clear-button" type="button">Xatolar ro‘yxatini tozalash</button>
+      </section>
+
+      <section id="quiz-screen" class="screen hidden" aria-live="polite">
+        <button id="back-button" class="back-button" type="button">← Mavzularga qaytish</button>
+        <div class="quiz-meta">
+          <span id="quiz-category" class="topic-label"></span>
+          <span id="quiz-counter" class="quiz-counter"></span>
+        </div>
+        <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+        <article class="question-card">
+          <p class="question-kicker">SAVOL <span id="question-number"></span></p>
+          <span id="question-difficulty" class="question-difficulty"></span>
+          <h2 id="question-text"></h2>
+          <div id="answer-list" class="answer-list"></div>
+          <div id="answer-feedback" class="answer-feedback hidden"></div>
+          <button id="continue-button" class="primary-button hidden" type="button">Davom etish <span>→</span></button>
+        </article>
+        <p class="quiz-footnote">Shoshilma — to‘g‘ri tushunish tezlikdan muhimroq.</p>
+      </section>
+
+      <section id="result-screen" class="screen hidden" aria-live="polite">
+        <div class="result-card">
+          <div id="result-emoji" class="result-emoji">🏆</div>
+          <p class="eyebrow">TEST YAKUNLANDI</p>
+          <h1 id="result-title">Ajoyib!</h1>
+          <p id="result-message" class="result-message"></p>
+          <div class="score-ring"><div><strong id="result-score"></strong><span>TO‘G‘RI</span></div></div>
+          <p id="result-percent" class="result-percent"></p>
+          <button id="again-button" class="primary-button" type="button">Yana bir test ishlash <span>→</span></button>
+          <button id="home-button" class="text-button" type="button">Mavzularni ko‘rish</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
